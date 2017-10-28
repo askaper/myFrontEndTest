@@ -17,10 +17,13 @@ class App extends Component {
     super(props);
 
     this.updatePizzas = this.updatePizzas.bind(this);
+    this.sortPizzas = this.sortPizzas.bind(this);
+    this.reversePizzas = this.reversePizzas.bind(this);
 
     this.state = {
       pizzas: [],
-      inputText: ''
+      inputText: '',
+      sortedPizzas: true
     }
   }
 
@@ -42,21 +45,35 @@ class App extends Component {
 
   updatePizzas(event) {
     this.setState({
-      inputText: event.target.value
+      inputText: event.target.value.toLowerCase()
     })
   }
 
+  sortPizzas(event) {
+    event.preventDefault();
+    this.setState({
+      pizzas: this.state.pizzas.sort(),
+      sortedPizzas: false
+    })
+  }
+
+  reversePizzas(event) {
+    event.preventDefault();
+    this.setState({
+      pizzas: this.state.pizzas.reverse()
+    })
+  }
 
   render() {
-    //loops through array and assigns its index as the key for react
+    //loops through array and assigns its index as the key for react in case-insensite fashion
 
-    let filteredPizzas = this.state.pizzas.filter((pizzas) => {
+    const filteredPizzas = this.state.pizzas.filter((pizzas) => {
       return pizzas.toLowerCase().indexOf(this.state.inputText) !== -1
     })
 
-    // const pizzaList = filteredPizzas.map((pizzas, index) => {
-    //   return <li key={index}>{pizzas}</li>
-    // })
+    const displayedPizzas = filteredPizzas.map((pizzas, index) => {
+      return <li key={index}>{pizzas}</li>
+    })
 
     return (
       <div>
@@ -67,9 +84,12 @@ class App extends Component {
             <div className={'input-field'}>
               <input type="text" placeholder={'What would you like?'} value={this.state.inputText} onChange={this.updatePizzas}></input>
             </div>
+            <div className={'sort'}>
+              <button onClick={this.state.sortedPizzas ? this.sortPizzas : this.reversePizzas} className={'sort-button'}>Sort</button>
+            </div>
             <div className={'pizza-list'}>
               <ul>
-                {filteredPizzas.map((pizzas, index) => { return <li key={index}>{pizzas}</li>})}
+                {displayedPizzas}
               </ul>
             </div>
           </div>
