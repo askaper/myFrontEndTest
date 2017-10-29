@@ -53,11 +53,11 @@ class App extends Component {
   sortPizzas(event) {
     event.preventDefault();
     this.setState({
-      pizzas: this.state.pizzas.sort((a, b) => {
+      pizzas: this.state.pizzas.sort((c, b) => {
         if (this.state.sortSwitch === true) {
-          return a.localeCompare(b)
+          return c.localeCompare(b)
         } else {
-          return b.localeCompare(a)
+          return b.localeCompare(c)
         }
       }),
       sortSwitch: false
@@ -85,7 +85,7 @@ class App extends Component {
       <div>
         {/* If there is anything in state, render Pizza stuff, otherwise show splash screen */}
         {this.state.pizzas.length ?
-          <div>
+          <div className={css(styles.content)}>
             <h1 className={css(styles.heading)}>Pizza Time!</h1>
             <div className={css(styles.searchContainer)}>
               <input className={css(styles.search)} type="text"  title={'Filter down your choice of pizza here'} placeholder={'What would you like?'} value={this.state.inputText} onChange={this.updatePizzas}></input>
@@ -106,6 +106,16 @@ class App extends Component {
 }
 
 const styles = StyleSheet.create({
+
+  content: {
+    maxHeight: '500px',
+    maxWidth: '500px',
+    height: '50%',
+    width: '50%',
+    textAlign: 'center',
+    margin: '0 auto',
+    backgroundColor: 'purple'
+  },
 
   splashBackground: {
     backgroundColor: 'black',
