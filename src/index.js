@@ -2,6 +2,7 @@ import fetch from 'isomorphic-fetch';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { StyleSheet, css } from 'aphrodite';
+import index from './index.css'
 
 // Note: this is the entry point for the entire application
 
@@ -39,7 +40,7 @@ class App extends Component {
         .then((data) => {
           this.setState({ pizzas: data.pizzas })
         })
-    }, 1000)
+    }, 2000)
   }
 
   updatePizzas(event) {
@@ -70,7 +71,7 @@ class App extends Component {
     })
 
     const displayedPizzas = filteredPizzas.map((pizzas, index) => {
-      return <li key={index}>{pizzas}</li>
+      return <li className={css(styles.pizzas)} key={index}>{pizzas}</li>
     })
 
     return (
@@ -79,35 +80,73 @@ class App extends Component {
         {this.state.pizzas.length ?
           <div>
             <h1 className={css(styles.heading)}>Pizza Time!</h1>
-            <div className={css(styles.red)}>
+            <div className={css(styles.searchContainer)}>
               <input className={css(styles.search)} type="text" placeholder={'What would you like?'} value={this.state.inputText} onChange={this.updatePizzas}></input>
             </div>
-            <div className={'sort'}>{/* I feel this approach for sorting the list isn't the best but the readability is good and behior works as expected */}
-              <button onClick={this.state.sortSwitch ? this.sortPizzas : this.reversePizzas} className={'sort-button'}>Sort</button>
+            <div className={css(styles.buttonContainer)}>{/* I feel this approach for sorting the list isn't the best but the readability is good and behior works as expected */}
+              <button className={css(styles.button)} title={'Click me to toggle sorting between ascending and descending alphabet!'}onClick={this.state.sortSwitch ? this.sortPizzas : this.reversePizzas} className={'sort-button'}>Toggle</button>
             </div>
             <div className={'pizza-list'}>
-              <ul>
+              <ul className={css(styles.list)}>
                 {displayedPizzas}
               </ul>
             </div>
           </div>
-        : <div><h1 className={'loading-splah'}>...LOADING</h1></div>}
+        : <div className={css(styles.splashBackground)}><h1 className={css(styles.loadingSplash)}>LOADING...</h1></div>}
       </div>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  red: {
-    backgroundColor: 'red'
+
+  splashBackground: {
+
+    '@media (max-width: 600px)': {
+      backgroundColor: 'pink'
+    },
+
+    backgroundColor: 'black'
+  },
+  background: {
+    color: 'pink'
+  },
+  buttonContainer: {
+    margin: '20px',
+    textAlign: 'center'
+  },
+  button: {
+    textAlign: 'center'
+  },
+  loadingSplash: {
+    textAlign: 'center',
+    color: '#f3f3f3'
+  },
+  searchContainer: {
+    backgroundImage: 'linear-gradient(180deg, red, red 50%, green 50%, green)',
+    textAlign: 'center'
   },
   heading: {
+    backgroundColor: 'yellow',
     textAlign: 'center',
     fontFamily: 'sans-serif'
   },
   search: {
-    borderRadius: '5px'
+    margin: '20px',
+    borderRadius: '5px',
+    textAlign: 'center',
+    color: 'red',
+  },
+  list: {
+    listStyle: 'none',
+    paddingLeft: '0px',
+    textAlign: 'left'
+  },
+  pizzas: {
+    textAlign: 'center'
   }
 })
+
+css(styles.globals)
 
 ReactDOM.render(<App />, document.querySelector('#root'))
