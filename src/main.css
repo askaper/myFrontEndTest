@@ -1,0 +1,4 @@
+body {
+  background: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)), url("/src/img/pizza.jpg");
+  background-size: cover;
+}

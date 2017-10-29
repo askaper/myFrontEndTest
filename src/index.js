@@ -2,7 +2,8 @@ import fetch from 'isomorphic-fetch';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { StyleSheet, css } from 'aphrodite';
-import index from './index.css'
+import reset from './reset.css';
+import main from './main.css';
 
 // Note: this is the entry point for the entire application
 
@@ -52,7 +53,13 @@ class App extends Component {
   sortPizzas(event) {
     event.preventDefault();
     this.setState({
-      pizzas: this.state.pizzas.sort(),
+      pizzas: this.state.pizzas.sort((a, b) => {
+        if (this.state.sortSwitch === true) {
+          return a.localeCompare(b)
+        } else {
+          return b.localeCompare(a)
+        }
+      }),
       sortSwitch: false
     })
   }
@@ -81,10 +88,10 @@ class App extends Component {
           <div>
             <h1 className={css(styles.heading)}>Pizza Time!</h1>
             <div className={css(styles.searchContainer)}>
-              <input className={css(styles.search)} type="text" placeholder={'What would you like?'} value={this.state.inputText} onChange={this.updatePizzas}></input>
+              <input className={css(styles.search)} type="text"  title={'Filter down your choice of pizza here'} placeholder={'What would you like?'} value={this.state.inputText} onChange={this.updatePizzas}></input>
             </div>
             <div className={css(styles.buttonContainer)}>{/* I feel this approach for sorting the list isn't the best but the readability is good and behior works as expected */}
-              <button className={css(styles.button)} title={'Click me to toggle sorting between ascending and descending alphabet!'}onClick={this.state.sortSwitch ? this.sortPizzas : this.reversePizzas} className={'sort-button'}>Toggle</button>
+              <button className={css(styles.button)} title={'Click me to toggle sorting between ascending and descending the alphabet!'} onClick={this.state.sortSwitch ? this.sortPizzas : this.reversePizzas} className={'sort-button'}>Toggle</button>
             </div>
             <div className={'pizza-list'}>
               <ul className={css(styles.list)}>
@@ -101,12 +108,10 @@ class App extends Component {
 const styles = StyleSheet.create({
 
   splashBackground: {
-
-    '@media (max-width: 600px)': {
-      backgroundColor: 'pink'
-    },
-
-    backgroundColor: 'black'
+    backgroundColor: 'black',
+    position: 'absolute',
+    top: '0',
+    left: '0'
   },
   background: {
     color: 'pink'
@@ -120,20 +125,22 @@ const styles = StyleSheet.create({
   },
   loadingSplash: {
     textAlign: 'center',
-    color: '#f3f3f3'
+    color: 'white'
   },
   searchContainer: {
-    backgroundImage: 'linear-gradient(180deg, red, red 50%, green 50%, green)',
+    backgroundImage: 'linear-gradient(180deg, white, white 50%, green 50%, green)',
     textAlign: 'center'
   },
   heading: {
-    backgroundColor: 'yellow',
+    backgroundColor: 'red',
     textAlign: 'center',
     fontFamily: 'sans-serif'
   },
   search: {
     margin: '20px',
-    borderRadius: '5px',
+    borderRadius: '20px',
+    boxShadow: '0px 0px 30px 1px green',
+    fontSize: '25px',
     textAlign: 'center',
     color: 'red',
   },
@@ -146,7 +153,5 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   }
 })
-
-css(styles.globals)
 
 ReactDOM.render(<App />, document.querySelector('#root'))
