@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
+import { StyleSheet, css } from 'aphrodite';
 
 // Note: this is the entry point for the entire application
 
@@ -9,7 +9,6 @@ import ReactDOM from 'react-dom';
 // remember that fetch uses promises.
 
 // step 2: implement the view and required behaviors
-
 
 class App extends Component {
 
@@ -23,7 +22,7 @@ class App extends Component {
     this.state = {
       pizzas: [],
       inputText: '',
-      sortedPizzas: true
+      sortSwitch: true
     }
   }
 
@@ -53,7 +52,7 @@ class App extends Component {
     event.preventDefault();
     this.setState({
       pizzas: this.state.pizzas.sort(),
-      sortedPizzas: false
+      sortSwitch: false
     })
   }
 
@@ -65,7 +64,6 @@ class App extends Component {
   }
 
   render() {
-    //loops through array and assigns its index as the key for react in case-insensite fashion
 
     const filteredPizzas = this.state.pizzas.filter((pizzas) => {
       return pizzas.toLowerCase().indexOf(this.state.inputText) !== -1
@@ -80,12 +78,12 @@ class App extends Component {
         {/* If there is anything in state, render Pizza stuff, otherwise show splash screen */}
         {this.state.pizzas.length ?
           <div>
-            <h1>Pizza Time!</h1>
-            <div className={'input-field'}>
-              <input type="text" placeholder={'What would you like?'} value={this.state.inputText} onChange={this.updatePizzas}></input>
+            <h1 className={css(styles.heading)}>Pizza Time!</h1>
+            <div className={css(styles.red)}>
+              <input className={css(styles.search)} type="text" placeholder={'What would you like?'} value={this.state.inputText} onChange={this.updatePizzas}></input>
             </div>
-            <div className={'sort'}>
-              <button onClick={this.state.sortedPizzas ? this.sortPizzas : this.reversePizzas} className={'sort-button'}>Sort</button>
+            <div className={'sort'}>{/* I feel this approach for sorting the list isn't the best but the readability is good and behior works as expected */}
+              <button onClick={this.state.sortSwitch ? this.sortPizzas : this.reversePizzas} className={'sort-button'}>Sort</button>
             </div>
             <div className={'pizza-list'}>
               <ul>
@@ -94,12 +92,22 @@ class App extends Component {
             </div>
           </div>
         : <div><h1 className={'loading-splah'}>...LOADING</h1></div>}
-
       </div>
-
     )
   }
-
 }
+
+const styles = StyleSheet.create({
+  red: {
+    backgroundColor: 'red'
+  },
+  heading: {
+    textAlign: 'center',
+    fontFamily: 'sans-serif'
+  },
+  search: {
+    borderRadius: '5px'
+  }
+})
 
 ReactDOM.render(<App />, document.querySelector('#root'))
