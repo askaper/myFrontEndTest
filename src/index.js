@@ -85,18 +85,22 @@ class App extends Component {
       <div>
         {/* If there is anything in state, render Pizza stuff, otherwise show splash screen */}
         {this.state.pizzas.length ?
-          <div className={css(styles.content)}>
-            <h1 className={css(styles.heading)}>Pizza Time!</h1>
-            <div className={css(styles.searchContainer)}>
-              <input className={css(styles.search)} type="text"  title={'Filter down your choice of pizza here'} placeholder={'What would you like?'} value={this.state.inputText} onChange={this.updatePizzas}></input>
-            </div>
-            <div className={css(styles.buttonContainer)}>{/* I feel this approach for sorting the list isn't the best but the readability is good and behior works as expected */}
-              <button className={css(styles.button)} title={'Click me to toggle sorting between ascending and descending the alphabet!'} onClick={this.state.sortSwitch ? this.sortPizzas : this.reversePizzas} className={'sort-button'}>Toggle</button>
-            </div>
-            <div className={'pizza-list'}>
-              <ul className={css(styles.list)}>
-                {displayedPizzas}
-              </ul>
+          <div className={css(styles.backgroundImage)}>
+            <div className={css(styles.content)}>
+              <div className={css(styles.headingContainer)}>
+                <h1 className={css(styles.heading)}>Pizza Time!</h1>
+              </div>
+              <div className={css(styles.searchContainer)}>
+                <input className={css(styles.search)} type="text"  title={'Filter down your choice of pizza here'} placeholder={'What would you like?'} value={this.state.inputText} onChange={this.updatePizzas}></input>
+              </div>
+              <div className={css(styles.buttonContainer)}>{/* I feel this approach for sorting the list isn't the best but the readability is good and behior works as expected */}
+                <button className={css(styles.button)} title={'Click me to toggle sorting between ascending and descending the alphabet!'} onClick={this.state.sortSwitch ? this.sortPizzas : this.reversePizzas}>Sort Your Pizzas!</button>
+              </div>
+              <div className={css(styles.list)}>
+                <ul>
+                  {displayedPizzas}
+                </ul>
+              </div>
             </div>
           </div>
         : <div className={css(styles.splashBackground)}><h1 className={css(styles.loadingSplash)}>LOADING...</h1></div>}
@@ -107,61 +111,118 @@ class App extends Component {
 
 const styles = StyleSheet.create({
 
+  backgroundImage: {
+    display: 'flex',
+    background: "url('./src/img/pizza.jpg')",
+    backgroundSize: 'cover',
+    width: '100%',
+    height: '100vh',
+    justifyContent: 'space-around'
+  },
+
   content: {
-    maxHeight: '500px',
-    maxWidth: '500px',
-    height: '50%',
-    width: '50%',
+    backgroundColor: '#c1a9a9',
+    display: 'flex',
+    flex: '1',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+    alignSelf: 'center',
     textAlign: 'center',
-    margin: '0 auto',
-    backgroundColor: 'purple'
+    borderRadius: '30px',
+    maxWidth: '50%'
+  },
+
+  buttonContainer: {
+    flex: '1',
+    margin: '20px',
+    textAlign: 'center',
+    borderRadius: '30px'
+  },
+
+  button: {
+    border: '0',
+    backgroundColor: '#fff',
+    boxShadow: '0 0 10px 1px black',
+    color: '#8b6a61',
+    padding: '10px',
+    appearance: 'none',
+    fontSize: '20px',
+    fontFamily: 'sans-serif',
+    borderRadius: '10px',
+    textAlign: 'center'
   },
 
   splashBackground: {
-    backgroundColor: 'black',
-    position: 'absolute',
-    top: '0',
-    left: '0'
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '100%',
+    height: '100vh'
   },
-  background: {
-    color: 'pink'
-  },
-  buttonContainer: {
-    margin: '20px',
-    textAlign: 'center'
-  },
-  button: {
-    textAlign: 'center'
-  },
+
   loadingSplash: {
-    textAlign: 'center',
-    color: 'white'
+    fontSize: '100px',
+    fontFamily: 'Lobster',
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: '50%'
   },
+
   searchContainer: {
-    backgroundImage: 'linear-gradient(180deg, white, white 50%, green 50%, green)',
-    textAlign: 'center'
-  },
-  heading: {
-    backgroundColor: 'red',
+    flex: '1',
     textAlign: 'center',
-    fontFamily: 'sans-serif'
+    borderRadius: '30px'
   },
+
+  headingContainer: {
+    '@media(max-width: 580px)': {
+      fontSize: '20px',
+      height: '70px',
+      borderRadius: '20px'
+    },
+    flex: '1',
+    verticalAlign: 'middle',
+    justifyContent: 'space-around',
+    height: '100px',
+    fontSize: '50px',
+    textAlign: 'center',
+    fontFamily: 'sans-serif',
+    borderRadius: '30px'
+  },
+
+  heading: {
+    marginTop: '25px',
+    fontFamily: 'Lobster'
+  },
+
   search: {
+    '@media(max-width: 580px)': {
+      fontSize: '10px'
+    },
     margin: '20px',
     borderRadius: '20px',
-    boxShadow: '0px 0px 30px 1px green',
-    fontSize: '25px',
+    boxShadow: '0px 0px 30px 1px black',
+    fontSize: '20px',
     textAlign: 'center',
-    color: 'red',
+    color: '#000',
   },
+
   list: {
+    fontFamily: 'sans-serif',
+    flex: '1',
     listStyle: 'none',
     paddingLeft: '0px',
-    textAlign: 'left'
+    borderRadius: '30px',
+    textAlign: 'left',
+    marginBottom: '20px'
   },
+
   pizzas: {
     textAlign: 'center'
   }
+
 })
 
 ReactDOM.render(<App />, document.querySelector('#root'))
