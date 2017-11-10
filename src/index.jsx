@@ -1,6 +1,6 @@
-import fetch from 'isomorphic-fetch';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import FetchPizzas from './FetchPizzas';
 import { StyleSheet, css } from 'aphrodite';
 import reset from './reset.css';
 
@@ -141,22 +141,6 @@ class App extends Component {
       inputText: '',
       sortSwitch: true,
     };
-  }
-
-  componentDidMount() {
-    // "faux loader"
-    setTimeout(() => {
-      fetch('../pizza.json')
-        .then((response) => {
-          if (response.status >= 400) {
-            throw new Error('Bad response from server');
-          }
-          return response.json();
-        })
-        .then((data) => {
-          this.setState({ pizzas: data.pizzas });
-        });
-    }, 2000);
   }
 
   updatePizzas(event) {
