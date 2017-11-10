@@ -18,7 +18,7 @@ const config = {
   ],
   module: {
     rules: [
-      { test: /\.jsx$/, exclude: /node_modules/, use: [ { loader: "babel-loader" }, { loader: "eslint-loader", options: { fix: true }} ]},
+      { test: /\.jsx$/, exclude: /node_modules/, use: [ { loader: "babel-loader" } ]},
       { test: /\.css$/, use: ['style-loader', 'css-loader'] },
       { test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/, loader: 'url-loader', options: { limit: 100000 } }
     ]
