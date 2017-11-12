@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import FetchPizzas from './FetchPizzas';
 import { StyleSheet, css } from 'aphrodite';
+import reset from './reset.css';
 
 // Note: this is the entry point for the entire application
 
@@ -142,6 +142,23 @@ class App extends Component {
     };
   }
 
+  componentDidMount() {
+    // "faux loader"
+    const newPizzas =
+    setTimeout(() => {
+      fetch('../pizza.json')
+        .then((response) => {
+          if (response.status >= 400) {
+            throw new Error('Bad response from server');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          this.setState({ pizzas: data.pizzas });
+        });
+    }, 2000);
+  }
+
   updatePizzas(event) {
     this.setState({
       inputText: event.target.value.toLowerCase(),
@@ -201,17 +218,19 @@ class App extends Component {
               </div>
               <div className={css(styles.list)}>
                 <ul>
-                  <FetchPizzas />
+                  {filteredPizzas.map((pizzas, index) => (
+                    <li className={css(styles.pizzas)} key={index}>{pizzas}</li>
                   ))}
                 </ul>
               </div>
             </div>
           </div>
         : <div className={css(styles.splashBackground)}>
-            <h1 className={css(styles.loadingSplash)}>LOADING...</h1>
+          <h1 className={css(styles.loadingSplash)}>LOADING...</h1>
           </div>}
       </div>
     );
   }
 }
+
 export default App;
