@@ -14,6 +14,7 @@ class FetchPizzas extends Component {
 
   componentDidMount() {
     // "faux loader"
+    const newPizzas = this.state.pizzas;
     setTimeout(() => {
       fetch('../pizza.json')
         .then((response) => {
@@ -28,12 +29,18 @@ class FetchPizzas extends Component {
     }, 2000);
   }
 
-  
+
   render() {
 
+    const filteredPizzas = this.state.pizzas.filter(pizzas => (
+      pizzas.toLowerCase().indexOf(this.state.inputText) !== -1));
 
+    return (
+      filteredPizzas.map((pizzas, index) => (
+        <li className={css(styles.pizzas)} key={index}>{pizzas}</li>
+      ))
+    )
   }
-
 }
 
 export default FetchPizzas;
