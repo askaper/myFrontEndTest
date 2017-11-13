@@ -4,11 +4,8 @@ import FetchPizzas from './FetchPizzas.jsx';
 import reset from './reset.css';
 
 
-
-const Root = () => {
-  return (
-    <FetchPizzas />
-  )
-};
+const Root = () => (
+  <FetchPizzas />
+);
 
 render(<Root />, document.querySelector('#root'));

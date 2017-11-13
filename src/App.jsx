@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import FetchPizzas from './FetchPizzas.jsx';
 import { StyleSheet, css } from 'aphrodite';
 import reset from './reset.css';
 
@@ -138,7 +136,7 @@ class App extends Component {
 
     this.state = {
       inputText: '',
-      sortSwitch: true
+      sortSwitch: true,
     };
   }
 
@@ -151,15 +149,15 @@ class App extends Component {
   sortPizzas(event) {
     event.preventDefault();
     this.setState({
-      sortSwitch: false
-    })
+      sortSwitch: false,
+    });
   }
 
   reversePizzas(event) {
     event.preventDefault();
     this.setState({
-      sortSwitch: true
-    })
+      sortSwitch: true,
+    });
   }
 
   render() {
@@ -168,10 +166,9 @@ class App extends Component {
 
     this.props.pizzas.sort((c, b) => {
       if (this.state.sortSwitch === true) {
-        return c.localeCompare(b)
-      } else {
-        return b.localeCompare(c)
+        return c.localeCompare(b);
       }
+      return b.localeCompare(c);
     });
 
     return (

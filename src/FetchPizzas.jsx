@@ -1,16 +1,14 @@
+import fetch from 'isomorphic-fetch';
 import React, { Component } from 'react';
 import App from './App';
 
 class FetchPizzas extends Component {
-
-
   constructor(props) {
     super(props);
 
     this.state = {
-      pizzas: []
-    }
-
+      pizzas: [],
+    };
   }
 
   componentDidMount() {
@@ -29,12 +27,10 @@ class FetchPizzas extends Component {
   }
 
   render() {
-
     return (
       <App pizzas={this.state.pizzas} />
-    )
+    );
   }
-
 }
 
 export default FetchPizzas;
