@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { StyleSheet, css } from 'aphrodite';
 import reset from './reset.css';
 
@@ -136,27 +135,9 @@ class App extends Component {
     this.reversePizzas = this.reversePizzas.bind(this);
 
     this.state = {
-      pizzas: [],
       inputText: '',
       sortSwitch: true,
     };
-  }
-
-  componentDidMount() {
-    // "faux loader"
-    const newPizzas =
-    setTimeout(() => {
-      fetch('../pizza.json')
-        .then((response) => {
-          if (response.status >= 400) {
-            throw new Error('Bad response from server');
-          }
-          return response.json();
-        })
-        .then((data) => {
-          this.setState({ pizzas: data.pizzas });
-        });
-    }, 2000);
   }
 
   updatePizzas(event) {
@@ -168,12 +149,6 @@ class App extends Component {
   sortPizzas(event) {
     event.preventDefault();
     this.setState({
-      pizzas: this.state.pizzas.sort((c, b) => {
-        if (this.state.sortSwitch === true) {
-          return c.localeCompare(b);
-        }
-        return b.localeCompare(c);
-      }),
       sortSwitch: false,
     });
   }
@@ -181,18 +156,25 @@ class App extends Component {
   reversePizzas(event) {
     event.preventDefault();
     this.setState({
-      pizzas: this.state.pizzas.reverse(),
+      sortSwitch: true,
     });
   }
 
   render() {
-    const filteredPizzas = this.state.pizzas.filter(pizzas => (
+    const filteredPizzas = this.props.pizzas.filter(pizzas => (
       pizzas.toLowerCase().indexOf(this.state.inputText) !== -1));
+
+    this.props.pizzas.sort((c, b) => {
+      if (this.state.sortSwitch === true) {
+        return c.localeCompare(b);
+      }
+      return b.localeCompare(c);
+    });
 
     return (
       <div>
         {/* If there is anything in state, render Pizza stuff, otherwise show splash screen */}
-        {this.state.pizzas.length ?
+        {this.props.pizzas.length ?
           <div className={css(styles.backgroundImage)}>
             <div className={css(styles.content)}>
               <div className={css(styles.headingContainer)}>

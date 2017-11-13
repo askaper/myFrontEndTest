@@ -1,14 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
-import App from './App';
+import FetchPizzas from './FetchPizzas.jsx';
 import reset from './reset.css';
 
 
-
-const Root = () => {
-  return (
-    <App />
-  )
-};
+const Root = () => (
+  <FetchPizzas />
+);
 
 render(<Root />, document.querySelector('#root'));
