@@ -150,40 +150,29 @@ class App extends Component {
 
   sortPizzas(event) {
     event.preventDefault();
-
-    this.props.pizzas.sort((c, b) => {
-      if (this.state.sortSwitch === true) {
-        return c.localeComapare(b)
-      } else {
-        return b.localeCompare(c);
-      }
-    })
     this.setState({
       sortSwitch: false
     })
   }
 
-  // sortPizzas(event) {
-  //   event.preventDefault();
-  //   this.setState({
-  //     pizzas: this.props.pizzas.sort((c, b) => {
-  //       if (this.state.sortSwitch === true) {
-  //         return c.localeCompare(b);
-  //       }
-  //       return b.localeCompare(c);
-  //     }),
-  //     sortSwitch: false,
-  //   });
-  // }
-
   reversePizzas(event) {
     event.preventDefault();
-    this.props.pizzas.reverse()
+    this.setState({
+      sortSwitch: true
+    })
   }
 
   render() {
     const filteredPizzas = this.props.pizzas.filter(pizzas => (
       pizzas.toLowerCase().indexOf(this.state.inputText) !== -1));
+
+    this.props.pizzas.sort((c, b) => {
+      if (this.state.sortSwitch === true) {
+        return c.localeCompare(b)
+      } else {
+        return b.localeCompare(c)
+      }
+    });
 
     return (
       <div>
